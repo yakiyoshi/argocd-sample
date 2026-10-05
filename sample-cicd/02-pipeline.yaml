@@ -1,0 +1,16 @@
+# ===========================================================================
+# サンプル Tekton Pipeline
+#
+# 概要: サンプル Task を 1 つ実行する最小構成の Pipeline を定義する。
+# 目的: パイプライン定義が Tekton のみ許可の AppProject で同期できることを確認する。
+# 備考: 実行（PipelineRun）は利用者が行う。Pod は Tekton コントローラが起動する。
+# ===========================================================================
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: sample-pipeline
+spec:
+  tasks:
+    - name: hello
+      taskRef:
+        name: sample-hello

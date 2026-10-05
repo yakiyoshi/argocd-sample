@@ -1,0 +1,8 @@
+# ArgoCD が同期する CI/CD サンプル（Tekton）。operands/argocd の kustomization には
+# 含めず、CI/CD 用 Application が Git のこのディレクトリを参照して同期する。
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 01-task.yaml
+  - 02-pipeline.yaml
+  - 03-deployment.yaml

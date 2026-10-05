@@ -1,0 +1,17 @@
+# ===========================================================================
+# サンプル Tekton Task
+#
+# 概要: 動作確認用の最小構成の Task を定義する。
+# 目的: CI/CD 用 Application の同期で Tekton リソースが展開されることを確認する。
+# ===========================================================================
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: sample-hello
+spec:
+  steps:
+    - name: hello
+      image: registry.access.redhat.com/ubi9/ubi-minimal:9.4
+      script: |
+        #!/usr/bin/env bash
+        echo "hello from tekton"

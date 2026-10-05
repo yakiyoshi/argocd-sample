@@ -1,0 +1,41 @@
+# ===========================================================================
+# サンプルアプリ Deployment
+#
+# 概要: 動作確認用の最小構成の nginx を定義する。
+# 目的: Application の同期でワークロードが展開されることを確認する。
+# 備考: restricted の Pod Security で動作するよう非 root で起動する。Red Hat UBI の nginx を使う。
+# ===========================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample
+  labels:
+    app: sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+        - name: nginx
+          # イメージ固定：latest を避け、タグでバージョンを固定する
+          image: registry.access.redhat.com/ubi9/nginx-124:1-14
+          # 起動コマンド：UBI nginx をフォアグラウンドで実行する
+          command: ["nginx", "-g", "daemon off;"]
+          ports:
+            # UBI nginx の既定設定は 8080 で待ち受ける
+            - containerPort: 8080
+          # 権限制限：restricted の Pod Security に適合させる
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault

@@ -1,0 +1,8 @@
+# ArgoCD が同期するサンプルアプリ。operands/argocd の kustomization には含めず、
+# Application が Git のこのディレクトリを参照して同期する。
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 01-deployment.yaml
+  - 02-service.yaml
+  - 03-route.yaml
